@@ -29,9 +29,12 @@ class MediaController extends Controller
             'mime_type' => 'required|string',
             'size' => 'required|integer',
             'collection_name' => 'nullable|string',
+<<<<<<< HEAD
             'type' => 'nullable|string',
             'uploadthing_url' => 'nullable|string',
             'filename' => 'nullable|string',
+=======
+>>>>>>> dbcc2c7c9b5db5d929814c443e3fbef9f6cee618
         ]);
 
         $media = Media::create($validated);
@@ -46,6 +49,7 @@ class MediaController extends Controller
         $media->delete();
         return response()->json(['message' => 'Media deleted successfully']);
     }
+<<<<<<< HEAD
 
     public function getByType(Request $request, string $type)
     {
@@ -55,4 +59,6 @@ class MediaController extends Controller
         
         return MediaResource::collection($media);
     }
+=======
+>>>>>>> dbcc2c7c9b5db5d929814c443e3fbef9f6cee618
 }

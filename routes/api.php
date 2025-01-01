@@ -14,6 +14,7 @@ Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 Route::get('/public/navigation', [NavigationController::class, 'getNavigation']);
 
+<<<<<<< HEAD
 Route::prefix('media')->group(function () {
     Route::get('/', [MediaController::class, 'index']);
     Route::post('/', [MediaController::class, 'store']);
@@ -21,6 +22,8 @@ Route::prefix('media')->group(function () {
     Route::get('/type/{type}', [MediaController::class, 'getByType']);
 });
 
+=======
+>>>>>>> dbcc2c7c9b5db5d929814c443e3fbef9f6cee618
 // Protected routes (perlu login)
 Route::middleware(['auth:sanctum'])->group(function () {
 
@@ -39,6 +42,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('posts', PostController::class);
     
     // Media Management
+<<<<<<< HEAD
+=======
+    Route::prefix('media')->group(function () {
+        Route::get('/', [MediaController::class, 'index']);
+        Route::post('/', [MediaController::class, 'store']);
+        Route::delete('/{media}', [MediaController::class, 'destroy']);
+    });
+>>>>>>> dbcc2c7c9b5db5d929814c443e3fbef9f6cee618
     
     // Settings Management
     Route::prefix('settings')->group(function () {
