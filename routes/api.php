@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\NavigationController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\NavbarSettingsController;
 use Illuminate\Support\Facades\Route;
 
 //login
@@ -45,6 +46,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [SettingController::class, 'index']);
         Route::post('/update', [SettingController::class, 'update']);
     });
+
+    // Navbar Settings
+    Route::get('/navbar/check', [NavbarSettingsController::class, 'check']);
+    Route::post('/navbar/generate', [NavbarSettingsController::class, 'generate']);
+    Route::put('/navbar/update', [NavbarSettingsController::class, 'update']);
     
     // Dashboard Stats (optional, bisa ditambahkan nanti)
     Route::get('/dashboard/stats', function () {
