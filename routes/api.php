@@ -22,6 +22,8 @@ Route::prefix('media')->group(function () {
     Route::get('/type/{type}', [MediaController::class, 'getByType']);
 });
 
+Route::get('/public/navbar', [NavbarSettingsController::class, 'getPublicNavbar']);
+
 // Protected routes (perlu login)
 Route::middleware(['auth:sanctum'])->group(function () {
 
@@ -36,6 +38,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/items/{item}', [NavigationController::class, 'deleteMenuItem']);
         Route::post('/items/reorder', [NavigationController::class, 'reorderItems']);
     });
+
+    // Toggle Active Navbar
+    Route::post('/navbar/toggle', [NavbarSettingsController::class, 'toggleActive']);
+
     // Posts Management
     Route::apiResource('posts', PostController::class);
     

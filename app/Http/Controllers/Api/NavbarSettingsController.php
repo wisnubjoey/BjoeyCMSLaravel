@@ -95,4 +95,33 @@ class NavbarSettingsController extends Controller
     {
         //
     }
+
+    public function toggleActive()
+{
+    try {
+        $settings = NavbarSettings::first();
+        if (!$settings) {
+            return response()->json(['error' => 'Navbar not found'], 404);
+        }
+
+        $settings->update([
+            'is_active' => !$settings->is_active
+        ]);
+
+        return response()->json($settings);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
+// Tambahkan method untuk get public navbar
+public function getPublicNavbar()
+{
+    try {
+        $settings = NavbarSettings::where('is_active', true)->first();
+        return response()->json($settings);
+    } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

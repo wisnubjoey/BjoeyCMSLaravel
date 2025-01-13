@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class NavbarSettings extends Model
 {
     protected $fillable = [
+        'is_active',
         'is_generated',
         'logo_url',
         'site_name',
@@ -15,6 +16,7 @@ class NavbarSettings extends Model
     ];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'is_generated' => 'boolean',
         'settings' => 'array'
     ];
