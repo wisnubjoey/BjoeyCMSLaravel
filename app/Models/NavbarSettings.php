@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\NavbarMenuItem;
+
 
 class NavbarSettings extends Model
 {
@@ -20,4 +21,9 @@ class NavbarSettings extends Model
         'is_generated' => 'boolean',
         'settings' => 'array'
     ];
+
+    public function menuItems() {
+        return $this->hasMany(NavbarMenuItem::class)->orderBy('order');
+
+    }
 }

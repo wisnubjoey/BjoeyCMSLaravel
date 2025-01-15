@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\NavigationController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\NavbarSettingsController;
+use App\Http\Controllers\Api\NavbarMenuItemController;
 use Illuminate\Support\Facades\Route;
 
 //login
@@ -41,6 +42,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Toggle Active Navbar
     Route::post('/navbar/toggle', [NavbarSettingsController::class, 'toggleActive']);
+
+    //Menu Items Management
+    Route::get('/navbar/{navbarId}/menu-items', [NavbarMenuItemController::class, 'index']);
+    Route::post('/navbar/{navbarId}/menu-items', [NavbarMenuItemController::class, 'store']);
+    Route::put('/navbar/menu-items/{menuItem}', [NavbarMenuItemController::class, 'update']);
+    Route::delete('/navbar/menu-items/{menuItem}', [NavbarMenuItemController::class, 'destroy']);
+    Route::post('/navbar/{navbarId}/menu-items/reorder', [NavbarMenuItemController::class, 'reorder']);
 
     // Posts Management
     Route::apiResource('posts', PostController::class);
