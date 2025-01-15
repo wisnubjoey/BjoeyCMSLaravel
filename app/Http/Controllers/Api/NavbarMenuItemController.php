@@ -73,10 +73,18 @@ class NavbarMenuItemController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(NavbarMenuItem $menuItem)
-    {
+{
+    try {
         $menuItem->delete();
-
-        return response()->json(204, ['message' => 'Menu item deleted successfully']);
+        
+        // Perbaiki format response
+        return response()->json(['message' => 'Menu item deleted successfully'], 200);
+        // atau
+        // return response()->noContent(); // HTTP 204
+    } catch (\Exception $e) {
+        \Log::error('Failed to delete menu item: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to delete menu item'], 500);
+        }
     }
     
     public function reorder(Request $request, $navbarId) {
