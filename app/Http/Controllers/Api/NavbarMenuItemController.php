@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\NavbarMenuItem;
 use App\Models\NavbarSettings;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class NavbarMenuItemController extends Controller
@@ -15,7 +16,7 @@ class NavbarMenuItemController extends Controller
     public function index($navbarId)
     {
         $menuItems = NavbarMenuItem::where('navbar_settings_id', $navbarId)
-            ->orderBy('order')
+            ->orderBy('order', 'asc')
             ->get();
 
         return response()->json($menuItems);
@@ -87,18 +88,29 @@ class NavbarMenuItemController extends Controller
         }
     }
     
-    public function reorder(Request $request, $navbarId) {
-        $request->validate([
-            'items' => 'required|array',
-            'items.*.id' => 'required|exists:navbar_menu_items,id',
-            'items.*.order' => 'required|integer|min:0',
-        ]);
+    public function reorder(Request $request, $navbarId) 
+{
+    $request->validate([
+        'items' => 'required|array',
+        'items.*.id' => 'required|exists:navbar_menu_items,id',
+        'items.*.order' => 'required|integer|min:1',
+    ]);
 
+    DB::beginTransaction();
+    try {
         foreach ($request->items as $item) {
             NavbarMenuItem::where('id', $item['id'])
+                ->where('navbar_settings_id', $navbarId)
                 ->update(['order' => $item['order']]);
         }
-
-        return response()->json(['message' => 'Menu order updated successfully']);
+        DB::commit();
+        
+        return response()->json(NavbarMenuItem::where('navbar_settings_id', $navbarId)
+            ->orderBy('order', 'asc')
+            ->get());
+    } catch (\Exception $e) {
+        DB::rollBack();
+        throw $e;
     }
+}
 }
