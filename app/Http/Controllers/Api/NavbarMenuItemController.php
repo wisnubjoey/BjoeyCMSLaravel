@@ -113,4 +113,12 @@ class NavbarMenuItemController extends Controller
         throw $e;
     }
 }
+
+public function getPublicMenuItems($navbarId)
+{
+    $menuItems = NavbarMenuItem::where('navbar_settings_id', $navbarId)
+        ->orderBy('order')
+        ->get();
+    return response()->json($menuItems);
+}
 }

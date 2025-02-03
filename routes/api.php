@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 //login
 Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:sanctum', 'verified']);
 
+Route::get('/public/navbar', [NavbarSettingsController::class, 'getPublicNavbar']);
+Route::get('/public/navbar/{id}/menu-items', [NavbarMenuItemController::class, 'getPublicMenuItems']);
+
 // Public routes (jika diperlukan)
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 Route::get('/public/navigation', [NavigationController::class, 'getNavigation']);
