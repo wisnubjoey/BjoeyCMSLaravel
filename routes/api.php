@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\NavigationController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HeroSettingsController;
 use App\Http\Controllers\Api\NavbarSettingsController;
 use App\Http\Controllers\Api\NavbarMenuItemController;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,11 @@ Route::prefix('media')->group(function () {
     Route::get('/type/{type}', [MediaController::class, 'getByType']);
 });
 
+//public navbar
 Route::get('/public/navbar', [NavbarSettingsController::class, 'getPublicNavbar']);
+
+//public hero
+Route::get('/public/hero', [HeroSettingsController::class, 'getPublicHero']);
 
 // Protected routes (perlu login)
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -68,6 +73,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/navbar/check', [NavbarSettingsController::class, 'check']);
     Route::post('/navbar/generate', [NavbarSettingsController::class, 'generate']);
     Route::put('/navbar/update', [NavbarSettingsController::class, 'update']);
+
+    // Hero Settings
+    Route::get('/hero/check', [HeroSettingsController::class, 'check']);
+    Route::post('/hero/generate', [HeroSettingsController::class, 'generate']);
+    Route::put('/hero/update', [HeroSettingsController::class, 'update']);
+    Route::post('/hero/toggle', [HeroSettingsController::class, 'toggleActive']);
     
     // Dashboard Stats (optional, bisa ditambahkan nanti)
     Route::get('/dashboard/stats', function () {
