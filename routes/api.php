@@ -5,6 +5,8 @@ use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\NavigationController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FeaturesSettingsController;
+use App\Http\Controllers\Api\FooterSettingsController;
 use App\Http\Controllers\Api\HeroSettingsController;
 use App\Http\Controllers\Api\NavbarSettingsController;
 use App\Http\Controllers\Api\NavbarMenuItemController;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 //login
 Route::post('login', [AuthController::class, 'login'])->withoutMiddleware(['auth:sanctum', 'verified']);
+
 
 Route::get('/public/navbar', [NavbarSettingsController::class, 'getPublicNavbar']);
 Route::get('/public/navbar/{id}/menu-items', [NavbarMenuItemController::class, 'getPublicMenuItems']);
@@ -32,6 +35,15 @@ Route::get('/public/navbar', [NavbarSettingsController::class, 'getPublicNavbar'
 
 //public hero
 Route::get('/public/hero', [HeroSettingsController::class, 'getPublicHero']);
+
+//public features
+Route::get('/public/features', [FeaturesSettingsController::class, 'getPublicFeatures']);
+
+//public recent posts
+Route::get('/public/posts/recent', [PostController::class, 'getRecentPosts']);
+
+//public footer
+Route::get('/public/footer', [FooterSettingsController::class, 'getPublicFooter']);
 
 // Protected routes (perlu login)
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -79,6 +91,25 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/hero/generate', [HeroSettingsController::class, 'generate']);
     Route::put('/hero/update', [HeroSettingsController::class, 'update']);
     Route::post('/hero/toggle', [HeroSettingsController::class, 'toggleActive']);
+
+    // Features Settings
+    Route::get('/features/check', [FeaturesSettingsController::class, 'check']);
+    Route::post('/features/generate', [FeaturesSettingsController::class, 'generate']);
+    Route::put('/features/update', [FeaturesSettingsController::class, 'update']);
+    Route::post('/features/toggle', [FeaturesSettingsController::class, 'toggleActive']);
+
+    // Feature items
+    Route::post('/features/items', [FeaturesSettingsController::class, 'addFeature']);
+    Route::put('/features/items/{feature}', [FeaturesSettingsController::class, 'updateFeature']);
+    Route::delete('/features/items/{feature}', [FeaturesSettingsController::class, 'deleteFeature']);
+    Route::post('/features/items/reorder', [FeaturesSettingsController::class, 'reorderFeatures']);
+
+    // Footer Settings
+    Route::get('/footer/check', [FooterSettingsController::class, 'check']);
+    Route::post('/footer/generate', [FooterSettingsController::class, 'generate']);
+    Route::put('/footer/update', [FooterSettingsController::class, 'update']);
+    Route::post('/footer/toggle', [FooterSettingsController::class, 'toggleActive']);
+
     
     // Dashboard Stats (optional, bisa ditambahkan nanti)
     Route::get('/dashboard/stats', function () {

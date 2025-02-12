@@ -78,4 +78,14 @@ class PostController extends Controller
         $post->delete();
         return response()->json(null, 204);
     }
+
+    public function getRecentPosts()
+{
+    $posts = Post::where('status', 'published')
+        ->latest()
+        ->take(5)
+        ->get();
+
+    return response()->json($posts);
+}
 }
