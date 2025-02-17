@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\FooterSettingsController;
 use App\Http\Controllers\Api\HeroSettingsController;
 use App\Http\Controllers\Api\NavbarSettingsController;
 use App\Http\Controllers\Api\NavbarMenuItemController;
+use App\Http\Controllers\Api\PagesController;
 use Illuminate\Support\Facades\Route;
 
 //login
@@ -44,6 +45,9 @@ Route::get('/public/posts/recent', [PostController::class, 'getRecentPosts']);
 
 //public footer
 Route::get('/public/footer', [FooterSettingsController::class, 'getPublicFooter']);
+
+//public pages
+Route::get('/public/pages/{slug}', [PagesController::class, 'getBySlug']);
 
 // Protected routes (perlu login)
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -109,6 +113,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/footer/generate', [FooterSettingsController::class, 'generate']);
     Route::put('/footer/update', [FooterSettingsController::class, 'update']);
     Route::post('/footer/toggle', [FooterSettingsController::class, 'toggleActive']);
+
+    //Pages Management
+    Route::apiResource('pages', PagesController::class);
 
     
     // Dashboard Stats (optional, bisa ditambahkan nanti)
