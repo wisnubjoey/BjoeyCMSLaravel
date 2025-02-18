@@ -89,6 +89,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/navbar/check', [NavbarSettingsController::class, 'check']);
     Route::post('/navbar/generate', [NavbarSettingsController::class, 'generate']);
     Route::put('/navbar/update', [NavbarSettingsController::class, 'update']);
+    Route::get('/navbar/available-pages', [NavbarMenuItemController::class, 'getAvailablePages']);
 
     // Hero Settings
     Route::get('/hero/check', [HeroSettingsController::class, 'check']);

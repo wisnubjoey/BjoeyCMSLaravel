@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\NavbarMenuItem;
 use App\Models\NavbarSettings;
+use App\Models\Page;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -83,7 +84,7 @@ class NavbarMenuItemController extends Controller
         // atau
         // return response()->noContent(); // HTTP 204
     } catch (\Exception $e) {
-        \Log::error('Failed to delete menu item: ' . $e->getMessage());
+        \Illuminate\Support\Facades\Log::error('Failed to delete menu item: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to delete menu item'], 500);
         }
     }
@@ -120,5 +121,20 @@ public function getPublicMenuItems($navbarId)
         ->orderBy('order')
         ->get();
     return response()->json($menuItems);
+}
+
+public function getAvailablePages()
+{
+    $pages = Page::where('is_published', true)
+        ->select('id', 'title', 'slug')
+        ->get()
+        ->map(function($page) {
+            return [
+                'value' => $page->slug,
+                'label' => $page->title
+            ];
+        });
+
+    return response()->json($pages);
 }
 }
